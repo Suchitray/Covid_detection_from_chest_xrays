@@ -3,10 +3,10 @@
 You can either clone this repo or just download it and unzip to some folder
 
 **Setup Python environment**
+
 In order to run scripts from this repo you should have a proper Python environment setup. You can create a virtualenv and activate it, with the following commands:
 
 *virtualenv -p python3 venv*
-
 
 *source venv/bin/activate*
 
