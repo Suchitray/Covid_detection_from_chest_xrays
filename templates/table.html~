@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/table.css') }}">
+    <meta charset="UTF-8">
+    <title>Incident Search Tool</title>
+  </head>
+  <body>
+    <h2>Incident Search Tool</h2>
+    <div class="container">
+      <form action="http://127.0.0.1:5000/" method="post">
+	
+	<div class="row">
+	  <div class="col-75">
+            <input type="text" id="nm" name="nm" placeholder="Search incident" style="width:400px;height:10px;margin-left:2%;font-style:italic;font-family: Helvetica, sans-serif;"></textarea>
+	  </div>
+	</div>
+	
+	<div class="row">
+	  <input type="submit" value="Go">
+	</div>
+      </form>
+
+      <div class="container1">
+	{% if row_data %}
+	<table id='result' class='display'>
+	  <thead>
+	    <tr>
+	      {% for col in column_names %}
+	      {% if col == "Url" %}
+	      {% else %}
+	      <th>{{col}}</th>
+	      {% endif %}
+	      {% endfor %}
+	    </tr>
+	  </thead>
+
+	  <tbody>
+
+	    {% for row in row_data %}
+	    <tr>
+	      {% for col, row_ in zip(column_names, row) %}
+	      {% if col == "Incident_ID" %}
+	      <td><a href="{{ row[3] }}" >{{ row_ }}</a></td>
+	      {% elif col == "Url" %}
+	      {% else %}
+	      <td>{{row_}}</td>
+	      {% endif %}
+	      {% endfor %}
+	      <td>
+		<form action="{{ url_for('details') }}" method="POST">
+		  <input id="Id" name="Id" type="hidden" value="{{row[0]}}">
+		  <button type="submit"> Details </button>
+		</form>
+	      </td>
+	    </tr>
+	    {% endfor %}
+
+	  </tbody>
+	</table>
+	{% endif %}
+      </div>
+
+      <div class="details">
+	{% if row1_data %}
+	<table id='details' class='display'>
+	  <thead>
+	    <tr>
+	      {% for col in column1_names %}
+	      <th>{{col}}</th>
+	      {% endfor %}
+	    </tr>
+	  </thead>
+
+	  <tbody>
+
+	    {% for row in row1_data %}
+	    <tr>
+	      {% for col, row_ in zip(column1_names, row) %}
+	      {% if col == "Attachments" %}
+	      <td>
+		<ol>
+		  {% for value in row_ %}
+		  <li><a href="{{value}}" >Image</a></li>
+		  {% endfor %}
+		</ol>
+	      </td>
+	      {% else %}
+	      <td>{{row_}}</td>
+	      {% endif %}
+	      {% endfor %}
+	    </tr>
+	    {% endfor %}
+
+	  </tbody>
+	</table>
+	{% endif %}
+      </div>
+</div> 
+</body>
+</html>
